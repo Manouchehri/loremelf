@@ -43,20 +43,20 @@
 // ELF Header Types
 // ELF identification element
 
-local int warnings = 0;
-local string temp_warning;
+// local int warnings = 0;
+// local string temp_warning;
 
 // A hack to get warning messages to both "Warn" (show in status) and output to the "output" window
-void PrintWarning(string message) {
-    Warning(temp_warning);
+// void PrintWarning(string message) {
+//     Warning(temp_warning);
 
-    // Ensure new-line, "Warning" statuses should not have them
-    SPrintf(temp_warning, "%s\n", message);
-    Printf(temp_warning);
+//     // Ensure new-line, "Warning" statuses should not have them
+//     SPrintf(temp_warning, "%s\n", message);
+//     Printf(temp_warning);
 
-    // Hack to trigger a more generic "look at warnings in output"
-    warnings++;
-}
+//     // Hack to trigger a more generic "look at warnings in output"
+//     warnings++;
+// }
 
 // Accelerate a slow lookup with an array
 local int sec_tbl_elem[255];
@@ -162,7 +162,18 @@ typedef enum <Elf32_Half> {
     ET_LOPROC   = 0xff00,
     ET_HIPROC   = 0xffff
 } e_type32_e;
-typedef e_type32_e e_type64_e;
+// typedef e_type32_e e_type64_e;
+typedef enum <Elf32_Half> {
+    ET_NONE     = 0x0,
+    ET_REL      = 0x1,
+    ET_EXEC     = 0x2,
+    ET_DYN      = 0x3,
+    ET_CORE     = 0x4,
+    ET_LOOS     = 0xfe00,
+    ET_HIOS     = 0xfeff,
+    ET_LOPROC   = 0xff00,
+    ET_HIPROC   = 0xffff
+} e_type64_e;
 
 typedef enum <Elf32_Half> {    // list has to to be completed
     EM_NONE         = 0,    //No machine
@@ -276,14 +287,130 @@ typedef enum <Elf32_Half> {    // list has to to be completed
     EM_ARCA         = 109,    //Arca RISC Microprocessor
     EM_UNICORE      = 110    //Microprocessor series from PKU-Unity Ltd. and MPRC of Peking University
 } e_machine32_e;
-typedef e_machine32_e e_machine64_e;
+// typedef e_machine32_e e_machine64_e;
+
+typedef enum <Elf32_Half> {    // list has to to be completed
+    EM_NONE         = 0,    //No machine
+    EM_M32          = 1,    //AT&T WE 32100
+    EM_SPARC        = 2,    //SPARC
+    EM_386          = 3,    //Intel 80386
+    EM_68K          = 4,    //Motorola 68000
+    EM_88K          = 5,    //Motorola 88000
+    reserved6       = 6,    //Reserved for future use (was EM_486)
+    EM_860          = 7,    //Intel 80860
+    EM_MIPS         = 8,    //MIPS I Architecture
+    EM_S370         = 9,    //IBM System/370 Processor
+    EM_MIPS_RS3_LE  = 10,    //MIPS RS3000 Little-endian
+    reserved11      = 11,    //Reserved for future use
+    reserved12      = 12,    //Reserved for future use
+    reserved13      = 13,    //Reserved for future use
+    reserved14      = 14,    //Reserved for future use
+    EM_PARISC       = 15,    //Hewlett-Packard PA-RISC
+    reserved16      = 16,    //Reserved for future use
+    EM_VPP500       = 17,    //Fujitsu VPP500
+    EM_SPARC32PLUS  = 18,    //Enhanced instruction set SPARC
+    EM_960          = 19,    //Intel 80960
+    EM_PPC          = 20,    //PowerPC
+    EM_PPC64        = 21,    //64-bit PowerPC
+    EM_S390         = 22,    //IBM System/390 Processor
+    reserved23      = 23,    //Reserved for future use
+    reserved24      = 24,    //Reserved for future use
+    reserved25      = 25,    //Reserved for future use
+    reserved26      = 26,    //Reserved for future use
+    reserved27      = 27,    //Reserved for future use
+    reserved28      = 28,    //Reserved for future use
+    reserved29      = 29,    //Reserved for future use
+    reserved30      = 30,    //Reserved for future use
+    reserved31      = 31,    //Reserved for future use
+    reserved32      = 32,    //Reserved for future use
+    reserved33      = 33,    //Reserved for future use
+    reserved34      = 34,    //Reserved for future use
+    reserved35      = 35,    //Reserved for future use
+    EM_V800         = 36,    //NEC V800
+    EM_FR20         = 37,    //Fujitsu FR20
+    EM_RH32         = 38,    //TRW RH-32
+    EM_RCE          = 39,    //Motorola RCE
+    EM_ARM          = 40,    //Advanced RISC Machines ARM
+    EM_ALPHA        = 41,    //Digital Alpha
+    EM_SH           = 42,    //Hitachi SH
+    EM_SPARCV9      = 43,    //SPARC Version 9
+    EM_TRICORE      = 44,    //Siemens TriCore embedded processor
+    EM_ARC          = 45,    //Argonaut RISC Core, Argonaut Technologies Inc.
+    EM_H8_300       = 46,    //Hitachi H8/300
+    EM_H8_300H      = 47,    //Hitachi H8/300H
+    EM_H8S          = 48,    //Hitachi H8S
+    EM_H8_500       = 49,    //Hitachi H8/500
+    EM_IA_64        = 50,    //Intel IA-64 processor architecture
+    EM_MIPS_X       = 51,    //Stanford MIPS-X
+    EM_COLDFIRE     = 52,    //Motorola ColdFire
+    EM_68HC12       = 53,    //Motorola M68HC12
+    EM_MMA          = 54,    //Fujitsu MMA Multimedia Accelerator
+    EM_PCP          = 55,    //Siemens PCP
+    EM_NCPU         = 56,    //Sony nCPU embedded RISC processor
+    EM_NDR1         = 57,    //Denso NDR1 microprocessor
+    EM_STARCORE     = 58,    //Motorola Star*Core processor
+    EM_ME16         = 59,    //Toyota ME16 processor
+    EM_ST100        = 60,    //STMicroelectronics ST100 processor
+    EM_TINYJ        = 61,    //Advanced Logic Corp. TinyJ embedded processor family
+    EM_X86_64       = 62,    //AMD x86-64 architecture
+    EM_PDSP         = 63,    //Sony DSP Processor
+    EM_PDP10        = 64,    //Digital Equipment Corp. PDP-10
+    EM_PDP11        = 65,    //Digital Equipment Corp. PDP-11
+    EM_FX66         = 66,    //Siemens FX66 microcontroller
+    EM_ST9PLUS      = 67,    //STMicroelectronics ST9+ 8/16 bit microcontroller
+    EM_ST7          = 68,    //STMicroelectronics ST7 8-bit microcontroller
+    EM_68HC16       = 69,    //Motorola MC68HC16 Microcontroller
+    EM_68HC11       = 70,    //Motorola MC68HC11 Microcontroller
+    EM_68HC08       = 71,    //Motorola MC68HC08 Microcontroller
+    EM_68HC05       = 72,    //Motorola MC68HC05 Microcontroller
+    EM_SVX          = 73,    //Silicon Graphics SVx
+    EM_ST19         = 75,    //Digital VAX
+    EM_CRIS         = 76,    //Axis Communications 32-bit embedded processor
+    EM_JAVELIN      = 77,    //Infineon Technologies 32-bit embedded processor
+    EM_FIREPATH     = 78,    //Element 14 64-bit DSP Processor
+    EM_ZSP          = 79,    //LSI Logic 16-bit DSP Processor
+    EM_MMIX         = 80,    //Donald Knuth's educational 64-bit processor
+    EM_HUANY        = 81,    //Harvard University machine-independent object files
+    EM_PRISM        = 82,    //SiTera Prism
+    EM_AVR          = 83,    //Atmel AVR 8-bit microcontroller
+    EM_FR30         = 84,    //Fujitsu FR30
+    EM_D10V         = 85,    //Mitsubishi D10V
+    EM_D30V         = 86,    //Mitsubishi D30V
+    EM_V850         = 87,    //NEC v850
+    EM_M32R         = 88,    //Mitsubishi M32R
+    EM_MN10300      = 89,    //Matsushita MN10300
+    EM_MN10200      = 90,    //Matsushita MN10200
+    EM_PJ           = 91,    //picoJava
+    EM_OPENRISC     = 92,    //OpenRISC 32-bit embedded processor
+    EM_ARC_A5       = 93,    //ARC Cores Tangent-A5
+    EM_XTENSA       = 94,    //Tensilica Xtensa Architecture
+    EM_VIDEOCORE    = 95,    //Alphamosaic VideoCore processor
+    EM_TMM_GPP      = 96,    //Thompson Multimedia General Purpose Processor
+    EM_NS32K        = 97,    //National Semiconductor 32000 series
+    EM_TPC          = 98,    //Tenor Network TPC processor
+    EM_SNP1K        = 99,    //Trebia SNP 1000 processor
+    EM_ST200        = 100,    //STMicroelectronics (www.st.com) ST200 microcontroller
+    EM_IP2K         = 101,    //Ubicom IP2xxx microcontroller family
+    EM_MAX          = 102,    //MAX Processor
+    EM_CR           = 103,    //National Semiconductor CompactRISC microprocessor
+    EM_F2MC16       = 104,    //Fujitsu F2MC16
+    EM_MSP430       = 105,    //Texas Instruments embedded microcontroller msp430
+    EM_BLACKFIN     = 106,    //Analog Devices Blackfin (DSP) processor
+    EM_SE_C33       = 107,    //S1C33 Family of Seiko Epson processors
+    EM_SEP          = 108,    //Sharp embedded microprocessor
+    EM_ARCA         = 109,    //Arca RISC Microprocessor
+    EM_UNICORE      = 110    //Microprocessor series from PKU-Unity Ltd. and MPRC of Peking University
+} e_machine64_e;
 
 typedef enum <Elf32_Word> {
     EV_NONE     = 0x0,
     EV_CURRENT  = 0x1
 } e_version32_e;
-typedef e_version32_e e_version64_e;
-
+// typedef e_version32_e e_version64_e;
+typedef enum <Elf32_Word> {
+    EV_NONE     = 0x0,
+    EV_CURRENT  = 0x1
+} e_version64_e;
 
 // Program Header Types
 typedef enum <Elf32_Word> {
@@ -314,7 +441,36 @@ typedef enum <Elf32_Word> {
     PT_SHT_ARM_DEBUGOVERLAY     = 0x70000004,
     PT_SHT_ARM_OVERLAYSECTION   = 0x70000005
 } p_type32_e;
-typedef p_type32_e p_type64_e;
+// typedef p_type32_e p_type64_e;
+typedef enum <Elf32_Word> {
+    PT_NULL                     = 0x0,
+    PT_LOAD                     = 0x1,
+    PT_DYNAMIC                  = 0x2,
+    PT_INERP                    = 0x3,
+    PT_NOTE                     = 0x4,
+    PT_SHLIB                    = 0x5,
+    PT_PHDR                     = 0x6,
+    PT_TLS                      = 0x7,
+    PT_NUM                      = 0x8,
+    PT_LOOS                     = 0x60000000,
+    PT_GNU_EH_FRAME             = 0x6474e550,
+    PT_GNU_STACK                = 0x6474e551,
+    PT_GNU_RELRO                = 0x6474e552,
+    PT_LOSUNW                   = 0x6ffffffa,
+    PT_SUNWBSS                  = 0x6ffffffa,
+    PT_SUNWSTACK                = 0x6ffffffb,
+    PT_HISUNW                   = 0x6fffffff,
+    PT_HIOS                     = 0x6fffffff,
+    PT_LOPROC                   = 0x70000000,
+    PT_HIPROC                   = 0x7fffffff,
+    // ARM Sections
+    PT_SHT_ARM_EXIDX            = 0x70000001,
+    PT_SHT_ARM_PREEMPTMAP       = 0x70000002,
+    PT_SHT_ARM_ATTRIBUTES       = 0x70000003,
+    PT_SHT_ARM_DEBUGOVERLAY     = 0x70000004,
+    PT_SHT_ARM_OVERLAYSECTION   = 0x70000005
+} p_type64_e;
+
 
 typedef enum <Elf32_Word> {
     PF_None             = 0x0,
@@ -326,7 +482,17 @@ typedef enum <Elf32_Word> {
     PF_Read_Write       = 0x6,
     PF_Read_Write_Exec  = 0x7
 } p_flags32_e;
-typedef p_flags32_e p_flags64_e;
+// typedef p_flags32_e p_flags64_e;
+typedef enum <Elf32_Word> {
+    PF_None             = 0x0,
+    PF_Exec             = 0x1,
+    PF_Write            = 0x2,
+    PF_Write_Exec       = 0x3,
+    PF_Read             = 0x4,
+    PF_Read_Exec        = 0x5,
+    PF_Read_Write       = 0x6,
+    PF_Read_Write_Exec  = 0x7
+} p_flags64_e;
 
 typedef enum <Elf32_Word> {
     SHN_UNDEF       = 0x0,      /* undefined, e.g. undefined symbol */
@@ -342,7 +508,21 @@ typedef enum <Elf32_Word> {
     SHN_XINDEX      = 0xffff, /* Index is in extra table */
     SHN_HIRESERVE   = 0xffff  /* Upper bound of reserved indices */
 } s_name32_e;
-typedef s_name32_e s_name64_e;
+// typedef s_name32_e s_name64_e;
+typedef enum <Elf32_Word> {
+    SHN_UNDEF       = 0x0,      /* undefined, e.g. undefined symbol */
+    SHN_LORESERVE   = 0xff00, /* Lower bound of reserved indices */
+    SHN_LOPROC      = 0xff00, /* Lower bound processor-specific index */
+    SHN_BEFORE      = 0xff00, /* Order section before all others (Solaris) */
+    SHN_AFTER       = 0xff01, /* Order section after all others (Solaris) */
+    SHN_HIPROC      = 0xff1f, /* Upper bound processor-specific index */
+    SHN_LOOS        = 0xff20, /* Lower bound OS-specific index */
+    SHN_HIOS        = 0xff3f, /* Upper bound OS-specific index */
+    SHN_ABS         = 0xfff1, /* Absolute value, not relocated */
+    SHN_COMMON      = 0xfff2, /* FORTRAN common or unallocated C */
+    SHN_XINDEX      = 0xffff, /* Index is in extra table */
+    SHN_HIRESERVE   = 0xffff  /* Upper bound of reserved indices */
+} s_name64_e;
 
 typedef enum <Elf32_Word> {
     SHT_NULL            = 0x0, /* Inactive section header */
@@ -383,7 +563,46 @@ typedef enum <Elf32_Word> {
     SHT_LOUSER          = 0x80000000, /* Start of application-specific */
     SHT_HIUSER          = 0x8fffffff /* Ennd of application-specific */
 } s_type32_e;
-typedef s_type32_e s_type64_e;
+// typedef s_type32_e s_type64_e;
+typedef enum <Elf32_Word> {
+    SHT_NULL            = 0x0, /* Inactive section header */
+    SHT_PROGBITS        = 0x1, /* Information defined by the program */
+    SHT_SYMTAB          = 0x2, /* Symbol table - not DLL */
+    SHT_STRTAB          = 0x3, /* String table */
+    SHT_RELA            = 0x4, /* Explicit addend relocations, Elf64_Rela */
+    SHT_HASH            = 0x5, /* Symbol hash table */
+    SHT_DYNAMIC         = 0x6, /* Information for dynamic linking */
+    SHT_NOTE            = 0x7, /* A Note section */
+    SHT_NOBITS          = 0x8, /* Like SHT_PROGBITS with no data */
+    SHT_REL             = 0x9, /* Implicit addend relocations, Elf64_Rel */
+    SHT_SHLIB           = 0xA, /* Currently unspecified semantics */
+    SHT_DYNSYM          = 0xD, /* Symbol table for a DLL */
+    SHT_INIT_ARRAY      = 0xE, /* Array of constructors */
+    SHT_FINI_ARRAY      = 0xF, /* Array of deconstructors */
+    SHT_PREINIT_ARRAY   = 0x10, /* Array of pre-constructors */
+    SHT_GROUP           = 0x11, /* Section group */
+    SHT_SYMTAB_SHNDX    = 0x12, /* Extended section indeces */
+    SHT_NUM             = 0x13, /* Number of defined types */
+
+    SHT_LOOS            = 0x60000000, /* Lowest OS-specific section type */
+    SHT_GNU_ATTRIBUTES  = 0x6ffffff5, /* Object attribuytes */
+    SHT_GNU_HASH        = 0x6ffffff6, /* GNU-style hash table */
+    SHT_GNU_LIBLIST     = 0x6ffffff7, /* Prelink library list */
+    SHT_CHECKSUM        = 0x6ffffff8, /* Checksum for DSO content */
+    SHT_LOSUNW          = 0x6ffffffa, /* Sun-specific low bound */
+    SHT_SUNW_move       = 0x6ffffffa, // Same thing
+    SHT_SUNW_COMDAT     = 0x6ffffffb,
+    SHT_SUNW_syminfo    = 0x6ffffffc,
+    SHT_GNU_verdef      = 0x6ffffffd, /* Version definition section */
+    SHT_GNU_verdneed    = 0x6ffffffe, /* Version needs section */
+    SHT_GNY_versym      = 0x6fffffff, /* Version symbol table */
+    SHT_HISUNW          = 0x6fffffff, /* Sun-specific high bound */
+    SHT_HIOS            = 0x6fffffff, /* Highest OS-specific section type */
+    SHT_LOPROC          = 0x70000000, /* Start of processor-specific section type */
+    SHT_HIPROC          = 0x7fffffff, /* End of processor-specific section type */
+    SHT_LOUSER          = 0x80000000, /* Start of application-specific */
+    SHT_HIUSER          = 0x8fffffff /* Ennd of application-specific */
+} s_type64_e;
 
 // TODO : Add new sections
 string ReservedSectionName(s_name32_e id) {
@@ -572,8 +791,17 @@ typedef struct {
     
     FSeek(off);
 } s_name32_t <read=SectionName>;
+// typedef s_name32_t s_name64_t;
+typedef struct {
+    s_name32_e s_name_off <format=hex>;
+    
+    local quad off = FTell();
+    FSeek(section_name_block_off + s_name_off);
 
-typedef s_name32_t s_name64_t;
+    string s_name_str;
+    
+    FSeek(off);
+} s_name64_t <read=SectionName>;
 
 string SectionName(s_name32_t &sect) {
     if(sect.s_name_off > SHN_UNDEF && sect.s_name_off < SHN_LORESERVE) {
@@ -650,7 +878,18 @@ typedef struct {
     
     FSeek(off);
 } sym_name32_t <read=SymbolName,optimize=false>;
-typedef sym_name32_t sym_name64_t;
+// typedef sym_name32_t sym_name64_t;
+
+typedef struct {
+    Elf32_Word sym_name_off <format=hex>;    /* Symbol table name offset */
+
+    local quad off = FTell();
+    FSeek(symbol_name_block_off + sym_name_off);
+
+    string sym_name_str;
+    
+    FSeek(off);
+} sym_name64_t <read=SymbolName,optimize=false>;
     
 string SymbolName(sym_name32_t &sym) {
     if(sym.sym_name_off > 0) {
@@ -659,7 +898,7 @@ string SymbolName(sym_name32_t &sym) {
     return "<Undefined>";
 }
 
-typedef enum <unsigned char> {
+typedef enum <uchar> {
     STB_LOCAL       = 0x0,
     STB_GLOBAL      = 0x1,
     STB_WEAK        = 0x2,
@@ -672,7 +911,7 @@ typedef enum <unsigned char> {
     STB_UNKNOWN     = 0xF
 } sym_info_bind_e;
 
-typedef enum <unsigned char> {
+typedef enum <uchar> {
     STT_NOTYPE      = 0x0,
     STT_OBJECT      = 0x1,
     STT_FUNC        = 0x2,
@@ -708,8 +947,8 @@ string SymInfoEnums(sym_info_t &info) {
 
 typedef struct {
    Elf64_Word sym_name;     /* Symbol name */
-   unsigned char sym_info;  /* Type and Binding attributes */
-   unsigned char sym_other; /* Reserved */
+   uchar sym_info;  /* Type and Binding attributes */
+   uchar sym_other; /* Reserved */
    Elf64_Half sym_shndx;    /* Section table index */
    Elf64_Addr sym_value;    /* Symbol value */
    Elf64_Xword sym_size;    /* Size of object (e.g., common) */
@@ -719,15 +958,15 @@ typedef struct {
    Elf32_Word sym_name;     /* Symbol name */
    Elf32_Addr sym_value;    /* Symbol value */
    Elf32_Xword sym_size;    /* Size of object (e.g., common) */
-   unsigned char sym_info;  /* Type and Binding attributes */
-   unsigned char sym_other; /* Reserved */
+   uchar sym_info;  /* Type and Binding attributes */
+   uchar sym_other; /* Reserved */
    Elf32_Half sym_shndx;    /* Section table index */
 } Elf32_Sym_fixed;
 
 typedef struct {
    sym_name64_t sym_name;   /* Symbol name */
    sym_info_t sym_info;     /* Type and Binding attributes */
-   unsigned char sym_other; /* Reserved */
+   uchar sym_other; /* Reserved */
    Elf64_Half sym_shndx;    /* Section table index */
    Elf64_Addr sym_value;    /* Symbol value */
    Elf64_Xword sym_size;    /* Size of object (e.g., common) */
@@ -747,7 +986,7 @@ typedef struct {
    Elf32_Addr sym_value;    /* Symbol value */
    Elf32_Xword sym_size;    /* Size of object (e.g., common) */
    sym_info_t sym_info;     /* Type and Binding attributes */
-   unsigned char sym_other; /* Reserved */
+   uchar sym_other; /* Reserved */
    Elf32_Half sym_shndx;    /* Section table index */
 
    if(sym_size && SectionHasData(sym_shndx)) {
@@ -938,12 +1177,12 @@ struct {
 
 
 // It's not really useful to see just the last warning, so inform us how many warnings we should see in output
-if(warnings > 1) {
-    Warning("%d warnings have occured and logged to the output box!", warnings);
-}
+// if(warnings > 1) {
+//     Warning("%d warnings have occured and logged to the output box!", warnings);
+// }
 
-// This will make the template show "Template executed successfully."
-if(warnings != 0) {
-    SPrintf(temp_warning, "%d warnings found, template may not have run successfully!", warnings);
-    return temp_warning;
-}
+// // This will make the template show "Template executed successfully."
+// if(warnings != 0) {
+//     SPrintf(temp_warning, "%d warnings found, template may not have run successfully!", warnings);
+//     return temp_warning;
+// }
