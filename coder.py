@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pfp, pfp.fuzz
-import IPython
+# import IPython
 
 # import sys
 # if __name__ == "__main__":
@@ -37,7 +37,7 @@ for mutation in pfp.fuzz.mutate(dom, IntegersOnly, num=1, at_once=1):
 		file.write(bytes(mutated))
 		file.close()
 	m = mutated  # lazy typer.
-	IPython.embed()
+	# IPython.embed()
 	counter += 1
 #print dom._pfp__error()
 # IPython.embed()
